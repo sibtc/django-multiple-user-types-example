@@ -5,11 +5,12 @@ from django.db import transaction
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
+from django.urls import reverse_lazy
 
 from ..decorators import student_required
-from ..forms import StudentSignUpForm, TakeQuizForm
-from ..models import Quiz, TakenQuiz, User
+from ..forms import StudentSignUpForm, StudentInterestsForm, TakeQuizForm
+from ..models import Quiz, Student, TakenQuiz, User
 
 
 class StudentSignUpView(CreateView):
@@ -25,6 +26,21 @@ class StudentSignUpView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('students:quiz_list')
+
+
+@method_decorator([login_required, student_required], name='dispatch')
+class StudentInterestsView(UpdateView):
+    model = Student
+    form_class = StudentInterestsForm
+    template_name = 'classroom/students/interests_form.html'
+    success_url = reverse_lazy('students:quiz_list')
+
+    def get_object(self):
+        return self.request.user.student
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Interests updated with success!')
+        return super().form_valid(form)
 
 
 @method_decorator([login_required, student_required], name='dispatch')
@@ -86,7 +102,10 @@ def take_quiz(request, pk):
                     correct_answers = student.quiz_answers.filter(answer__question__quiz=quiz, answer__is_correct=True).count()
                     score = round((correct_answers / total_questions) * 100.0, 2)
                     TakenQuiz.objects.create(student=student, quiz=quiz, score=score)
-                    messages.success(request, 'Congratulations! You completed the quiz %s with success!' % quiz.name)
+                    if score < 50.0:
+                        messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, score))
+                    else:
+                        messages.success(request, 'Congratulations! You completed the quiz %s with success! You scored %s points.' % (quiz.name, score))
                     return redirect('students:quiz_list')
     else:
         form = TakeQuizForm(question=question)

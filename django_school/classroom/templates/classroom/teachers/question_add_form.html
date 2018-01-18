@@ -15,7 +15,7 @@
   <form method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-primary">Add question</button>
+    <button type="submit" class="btn btn-success">Save</button>
     <a href="{% url 'teachers:quiz_change' quiz.pk %}" class="btn btn-outline-secondary" role="button">Nevermind</a>
   </form>
 {% endblock %}

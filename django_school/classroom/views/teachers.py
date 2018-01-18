@@ -5,9 +5,9 @@ from django.db import transaction
 from django.db.models import Avg, Count
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from ..decorators import teacher_required
 from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
@@ -39,7 +39,8 @@ class QuizListView(ListView):
     def get_queryset(self):
         queryset = self.request.user.quizzes \
             .select_related('subject') \
-            .annotate(questions_count=Count('questions'), taken_count=Count('taken_quizzes'))
+            .annotate(questions_count=Count('questions', distinct=True)) \
+            .annotate(taken_count=Count('taken_quizzes', distinct=True))
         return queryset
 
 
@@ -81,6 +82,22 @@ class QuizUpdateView(UpdateView):
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
+class QuizDeleteView(DeleteView):
+    model = Quiz
+    context_object_name = 'quiz'
+    template_name = 'classroom/teachers/quiz_delete_confirm.html'
+    success_url = reverse_lazy('teachers:quiz_change_list')
+
+    def delete(self, request, *args, **kwargs):
+        quiz = self.get_object()
+        messages.success(request, 'The quiz %s was deleted with success!' % quiz.name)
+        return super().delete(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.request.user.quizzes.all()
+
+
+@method_decorator([login_required, teacher_required], name='dispatch')
 class QuizResultsView(DetailView):
     model = Quiz
     context_object_name = 'quiz'
@@ -88,7 +105,7 @@ class QuizResultsView(DetailView):
 
     def get_context_data(self, **kwargs):
         quiz = self.get_object()
-        taken_quizzes = quiz.taken_quizzes.select_related('student__user').order_by('date')
+        taken_quizzes = quiz.taken_quizzes.select_related('student__user').order_by('-date')
         total_taken_quizzes = taken_quizzes.count()
         quiz_score = quiz.taken_quizzes.aggregate(average_score=Avg('score'))
         extra_context = {
@@ -168,3 +185,28 @@ def question_change(request, quiz_pk, question_pk):
         'form': form,
         'formset': formset
     })
+
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class QuestionDeleteView(DeleteView):
+    model = Question
+    context_object_name = 'question'
+    template_name = 'classroom/teachers/question_delete_confirm.html'
+    pk_url_kwarg = 'question_pk'
+
+    def get_context_data(self, **kwargs):
+        question = self.get_object()
+        kwargs['quiz'] = question.quiz
+        return super().get_context_data(**kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        question = self.get_object()
+        messages.success(request, 'The question %s was deleted with success!' % question.text)
+        return super().delete(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Question.objects.filter(quiz__owner=self.request.user)
+
+    def get_success_url(self):
+        question = self.get_object()
+        return reverse('teachers:quiz_change', kwargs={'pk': question.quiz_id})

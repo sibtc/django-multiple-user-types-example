@@ -30,3 +30,29 @@ footer a {
   line-height: 1.5;
   border-radius: .2rem;
 }
+
+.btn-student {
+  color: #fff;
+  background-color: #91afb6;
+  border-color: #91afb6;
+}
+
+.btn-student:hover,
+.btn-student:active {
+  color: #fff;
+  background-color: #608993;
+  border-color: #608993;
+}
+
+.btn-teacher {
+  color: #fff;
+  background-color: #8980a5;
+  border-color: #8980a5;
+}
+
+.btn-teacher:hover,
+.btn-teacher:active {
+  color: #fff;
+  background-color: #66598B;
+  border-color: #66598B;
+}

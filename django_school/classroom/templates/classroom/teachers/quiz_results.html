@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags humanize %}
 
 {% block content %}
   <nav aria-label="breadcrumb">
@@ -15,7 +15,7 @@
   <div class="card">
     <div class="card-header">
       <strong>Taken Quizzes</strong>
-      <span class="badge badge-pill badge-primary float-right">Average Score: {{ quiz_score.average_score }}</span>
+      <span class="badge badge-pill badge-primary float-right">Average Score: {{ quiz_score.average_score|default_if_none:0.0 }}</span>
     </div>
     <table class="table mb-0">
       <thead>
@@ -29,7 +29,7 @@
         {% for taken_quiz in taken_quizzes %}
           <tr>
             <td>{{ taken_quiz.student.user.username }}</td>
-            <td>{{ taken_quiz.date }}</td>
+            <td>{{ taken_quiz.date|naturaltime }}</td>
             <td>{{ taken_quiz.score }}</td>
           </tr>
         {% endfor %}

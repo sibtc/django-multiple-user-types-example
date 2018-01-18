@@ -9,14 +9,18 @@
       <li class="breadcrumb-item active" aria-current="page">{{ quiz.name }}</li>
     </ol>
   </nav>
-  <h2 class="mb-3">{{ quiz.name }}</h2>
+  <h2 class="mb-3">
+    {{ quiz.name }}
+    <a href="{% url 'teachers:quiz_results' quiz.pk %}" class="btn btn-primary float-right">View results</a>
+  </h2>
   <div class="row mb-3">
     <div class="col-md-6 col-sm-8 col-12">
       <form method="post" novalidate>
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-success">Save changes</button>
         <a href="{% url 'teachers:quiz_change_list' %}" class="btn btn-outline-secondary" role="button">Nevermind</a>
+        <a href="{% url 'teachers:quiz_delete' quiz.pk %}" class="btn btn-danger float-right">Delete</a>
       </form>
     </div>
   </div>

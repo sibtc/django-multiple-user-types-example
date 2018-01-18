@@ -39,6 +39,15 @@ class StudentSignUpForm(UserCreationForm):
         return user
 
 
+class StudentInterestsForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ('interests', )
+        widgets = {
+            'interests': forms.CheckboxSelectMultiple
+        }
+
+
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
