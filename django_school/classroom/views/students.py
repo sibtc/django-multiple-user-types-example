@@ -1,15 +1,15 @@
-from django.views.generic import CreateView, ListView, View
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth import login
-from django.db.models import Count
 from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, ListView
 
 from ..decorators import student_required
-from ..models import Quiz, User, TakenQuiz
 from ..forms import StudentSignUpForm, TakeQuizForm
+from ..models import Quiz, TakenQuiz, User
 
 
 class StudentSignUpView(CreateView):

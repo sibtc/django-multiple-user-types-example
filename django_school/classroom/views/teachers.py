@@ -1,19 +1,17 @@
-from django.views.generic import CreateView, UpdateView, DetailView
-from django.views.generic.base import View
-from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
-from django.utils.decorators import method_decorator
-from django.contrib.auth import login
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
-from django.db import transaction
-from django.db.models import Count, Avg
 from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.db.models import Avg, Count
 from django.forms import inlineformset_factory
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from ..decorators import teacher_required
-from ..models import User, Quiz, Question, Answer
-from ..forms import TeacherSignUpForm, QuestionForm, BaseAnswerInlineFormSet
+from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
+from ..models import Answer, Question, Quiz, User
 
 
 class TeacherSignUpView(CreateView):

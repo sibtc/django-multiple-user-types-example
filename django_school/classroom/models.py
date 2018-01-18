@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils.html import mark_safe, escape
+from django.db import models
+from django.utils.html import escape, mark_safe
 
 
 class User(AbstractUser):

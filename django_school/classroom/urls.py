@@ -1,8 +1,6 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
 from .views import classroom, students, teachers
-
 
 urlpatterns = [
     path('', classroom.home, name='home'),
