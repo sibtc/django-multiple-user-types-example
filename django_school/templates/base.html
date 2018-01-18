@@ -1,0 +1,78 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}Django School{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+  {% if user.is_authenticated and user.is_teacher %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
+  {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
+  {% endif %}
+</head>
+<body>
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-sm-12">
+        <div class="row">
+          <div class="col-6">
+            <h1 class="logo">
+              <a href="{% url 'home' %}">
+                Django School
+                {% if user.is_authenticated %}
+                  {% if user.is_teacher %}
+                    <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
+                  {% else %}
+                    <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Student profile"></span>
+                  {% endif %}
+                {% endif %}
+              </a>
+            </h1>
+          </div>
+          <div class="col-6 text-right">
+            {% if user.is_authenticated %}
+              <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Log out</a>.</p>
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
+              <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+        <footer>
+          <a href="https://simpleisbetterthancomplex.com">© simpleisbetterthancomplex.com</a>
+          /
+          <a href="">Read more about this example</a>
+          /
+          <a href="">Fork the code on GitHub</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    })
+  </script>
+</body>
+</html>

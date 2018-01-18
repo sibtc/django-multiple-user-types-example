@@ -1,0 +1,98 @@
+from django.views.generic import CreateView, ListView, View
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth import login
+from django.db.models import Count
+from django.contrib import messages
+from django.db import transaction
+
+from ..decorators import student_required
+from ..models import Quiz, User, TakenQuiz
+from ..forms import StudentSignUpForm, TakeQuizForm
+
+
+class StudentSignUpView(CreateView):
+    model = User
+    form_class = StudentSignUpForm
+    template_name = 'registration/signup_form.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'student'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('students:quiz_list')
+
+
+@method_decorator([login_required, student_required], name='dispatch')
+class QuizListView(ListView):
+    model = Quiz
+    ordering = ('name', )
+    context_object_name = 'quizzes'
+    template_name = 'classroom/students/quiz_list.html'
+
+    def get_queryset(self):
+        student = self.request.user.student
+        student_interests = student.interests.values_list('pk', flat=True)
+        taken_quizzes = student.quizzes.values_list('pk', flat=True)
+        queryset = Quiz.objects.filter(subject__in=student_interests) \
+            .exclude(pk__in=taken_quizzes) \
+            .annotate(questions_count=Count('questions')) \
+            .filter(questions_count__gt=0)
+        return queryset
+
+
+@method_decorator([login_required, student_required], name='dispatch')
+class TakenQuizListView(ListView):
+    model = TakenQuiz
+    context_object_name = 'taken_quizzes'
+    template_name = 'classroom/students/taken_quiz_list.html'
+
+    def get_queryset(self):
+        queryset = self.request.user.student.taken_quizzes \
+            .select_related('quiz', 'quiz__subject') \
+            .order_by('quiz__name')
+        return queryset
+
+
+@login_required
+@student_required
+def take_quiz(request, pk):
+    quiz = get_object_or_404(Quiz, pk=pk)
+    student = request.user.student
+
+    if student.quizzes.filter(pk=pk).exists():
+        return render(request, 'students/taken_quiz.html')
+
+    question = student.get_unanswered_questions(quiz).first()
+    if not question:
+        TakenQuiz.objects.create(student=student, quiz=quiz, score=0)
+        return redirect('students:quiz_list')
+
+    if request.method == 'POST':
+        form = TakeQuizForm(question=question, data=request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                student_answer = form.save(commit=False)
+                student_answer.student = student
+                student_answer.save()
+                if student.get_unanswered_questions(quiz).exists():
+                    return redirect('students:take_quiz', pk)
+                else:
+                    total_questions = quiz.questions.count()
+                    correct_answers = student.quiz_answers.filter(answer__question__quiz=quiz, answer__is_correct=True).count()
+                    score = round((correct_answers / total_questions) * 100.0, 2)
+                    TakenQuiz.objects.create(student=student, quiz=quiz, score=score)
+                    messages.success(request, 'Congratulations! You completed the quiz %s with success!' % quiz.name)
+                    return redirect('students:quiz_list')
+    else:
+        form = TakeQuizForm(question=question)
+
+    return render(request, 'classroom/students/take_quiz_form.html', {
+        'quiz': quiz,
+        'question': question,
+        'form': form
+    })

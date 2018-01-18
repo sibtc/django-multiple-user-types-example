@@ -1,0 +1,32 @@
+.logo {
+  font-family: 'Clicker Script', cursive;
+}
+
+.logo a {
+  color: #212529;
+  text-decoration: none;
+}
+
+footer {
+  font-size: .9rem;
+}
+
+footer a {
+  color: #212529;
+}
+
+.list-group-formset label {
+  display: none;
+}
+
+.list-group-formset .form-group,
+.list-group-formset .invalid-feedback {
+  margin-bottom: 0;
+}
+
+.list-group-formset .form-control {
+  padding: .25rem .5rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: .2rem;
+}
