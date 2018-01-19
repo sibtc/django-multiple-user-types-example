@@ -83,10 +83,11 @@ def take_quiz(request, pk):
     if student.quizzes.filter(pk=pk).exists():
         return render(request, 'students/taken_quiz.html')
 
-    question = student.get_unanswered_questions(quiz).first()
-    if not question:
-        TakenQuiz.objects.create(student=student, quiz=quiz, score=0)
-        return redirect('students:quiz_list')
+    total_questions = quiz.questions.count()
+    unanswered_questions = student.get_unanswered_questions(quiz)
+    total_unanswered_questions = unanswered_questions.count()
+    progress = 100 - round(((total_unanswered_questions - 1) / total_questions) * 100)
+    question = unanswered_questions.first()
 
     if request.method == 'POST':
         form = TakeQuizForm(question=question, data=request.POST)
@@ -98,7 +99,6 @@ def take_quiz(request, pk):
                 if student.get_unanswered_questions(quiz).exists():
                     return redirect('students:take_quiz', pk)
                 else:
-                    total_questions = quiz.questions.count()
                     correct_answers = student.quiz_answers.filter(answer__question__quiz=quiz, answer__is_correct=True).count()
                     score = round((correct_answers / total_questions) * 100.0, 2)
                     TakenQuiz.objects.create(student=student, quiz=quiz, score=score)
@@ -113,5 +113,6 @@ def take_quiz(request, pk):
     return render(request, 'classroom/students/take_quiz_form.html', {
         'quiz': quiz,
         'question': question,
-        'form': form
+        'form': form,
+        'progress': progress
     })

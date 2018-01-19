@@ -1,80 +1,80 @@
 {% load static %}<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>{% block title %}Django School{% endblock %}</title>
-  <link rel="icon" href="{% static 'img/favicon.png' %}">
-  <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
-  {% if user.is_authenticated and user.is_teacher %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
-  {% else %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
-  {% endif %}
-</head>
-<body>
-  <a href="https://github.com/sibtc/django-multiple-user-types-example"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-  <div class="container my-4">
-    <div class="row justify-content-center">
-      <div class="col-md-10 col-sm-12">
-        <div class="row">
-          <div class="col-6">
-            <h1 class="logo">
-              <a href="{% url 'home' %}">
-                Django School
-                {% if user.is_authenticated %}
-                  {% if user.is_teacher %}
-                    <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
-                  {% else %}
-                    <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Student profile"></span>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Django School{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+    {% if user.is_authenticated and user.is_teacher %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
+    {% else %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
+    {% endif %}
+  </head>
+  <body>
+    <a href="https://github.com/sibtc/django-multiple-user-types-example"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    <div class="container my-4">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-sm-12">
+          <div class="row">
+            <div class="col-6">
+              <h1 class="logo">
+                <a href="{% url 'home' %}">
+                  Django School
+                  {% if user.is_authenticated %}
+                    {% if user.is_teacher %}
+                      <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
+                    {% else %}
+                      <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Student profile"></span>
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-              </a>
-            </h1>
+                </a>
+              </h1>
+            </div>
+            <div class="col-6 text-right">
+              {% if user.is_authenticated %}
+                <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Log out</a>.</p>
+              {% else %}
+                <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
+              {% endif %}
+            </div>
           </div>
-          <div class="col-6 text-right">
-            {% if user.is_authenticated %}
-              <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Log out</a>.</p>
-            {% else %}
-              <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
-              <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
-            {% endif %}
+          <div class="card mb-3">
+            <div class="card-body">
+              {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+              {% block content %}
+              {% endblock %}
+            </div>
           </div>
+          <footer>
+            <a href="https://simpleisbetterthancomplex.com">© SimpleIsBetterThanComplex.com</a>
+            /
+            <a href="#">Read more about this example</a>
+            /
+            <a href="https://github.com/sibtc/django-multiple-user-types-example">GitHub repository</a>
+          </footer>
         </div>
-        <div class="card mb-3">
-          <div class="card-body">
-            {% for message in messages %}
-              <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            {% endfor %}
-            {% block content %}
-            {% endblock %}
-          </div>
-        </div>
-        <footer>
-          <a href="https://simpleisbetterthancomplex.com">© SimpleIsBetterThanComplex.com</a>
-          /
-          <a href="#">Read more about this example</a>
-          /
-          <a href="https://github.com/sibtc/django-multiple-user-types-example">GitHub repository</a>
-        </footer>
       </div>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    })
-  </script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      })
+    </script>
+  </body>
 </html>

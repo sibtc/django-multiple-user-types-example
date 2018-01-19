@@ -56,3 +56,12 @@ footer a {
   background-color: #66598B;
   border-color: #66598B;
 }
+
+.has-danger .radio,
+.has-danger .checkbox {
+  color: #dc3545;
+}
+
+.has-danger .invalid-feedback {
+  display: block;
+}
