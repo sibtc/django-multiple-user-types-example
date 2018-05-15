@@ -13,6 +13,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from ..decorators import teacher_required
 from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
 from ..models import Answer, Question, Quiz, User
+from ..mixins import TeacherRequiredMixin
 
 
 class TeacherSignUpView(CreateView):
@@ -30,8 +31,7 @@ class TeacherSignUpView(CreateView):
         return redirect('teachers:quiz_change_list')
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizListView(ListView):
+class QuizListView(TeacherRequiredMixin,ListView):
     model = Quiz
     ordering = ('name', )
     context_object_name = 'quizzes'
@@ -45,8 +45,7 @@ class QuizListView(ListView):
         return queryset
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizCreateView(CreateView):
+class QuizCreateView(TeacherRequiredMixin, CreateView):
     model = Quiz
     fields = ('name', 'subject', )
     template_name = 'classroom/teachers/quiz_add_form.html'
@@ -59,8 +58,7 @@ class QuizCreateView(CreateView):
         return redirect('teachers:quiz_change', quiz.pk)
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizUpdateView(UpdateView):
+class QuizUpdateView(TeacherRequiredMixin, UpdateView):
     model = Quiz
     fields = ('name', 'subject', )
     context_object_name = 'quiz'
@@ -82,8 +80,7 @@ class QuizUpdateView(UpdateView):
         return reverse('teachers:quiz_change', kwargs={'pk': self.object.pk})
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizDeleteView(DeleteView):
+class QuizDeleteView(TeacherRequiredMixin, DeleteView):
     model = Quiz
     context_object_name = 'quiz'
     template_name = 'classroom/teachers/quiz_delete_confirm.html'
@@ -98,8 +95,7 @@ class QuizDeleteView(DeleteView):
         return self.request.user.quizzes.all()
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizResultsView(DetailView):
+class QuizResultsView(TeacherRequiredMixin, DetailView):
     model = Quiz
     context_object_name = 'quiz'
     template_name = 'classroom/teachers/quiz_results.html'
@@ -188,8 +184,7 @@ def question_change(request, quiz_pk, question_pk):
     })
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuestionDeleteView(DeleteView):
+class QuestionDeleteView(TeacherRequiredMixin, DeleteView):
     model = Question
     context_object_name = 'question'
     template_name = 'classroom/teachers/question_delete_confirm.html'
