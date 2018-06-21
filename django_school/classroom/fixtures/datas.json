@@ -1,0 +1,209 @@
+[{
+    "model": "classroom.question",
+    "pk": 1,
+    "fields": {
+        "quiz": 1,
+        "text": "When was the Treaty of Versailles signed?"
+    }
+}, {
+    "model": "classroom.question",
+    "pk": 2,
+    "fields": {
+        "quiz": 1,
+        "text": "Britain, France, USA, Germany, Italy, and Russia."
+    }
+}, {
+    "model": "classroom.question",
+    "pk": 3,
+    "fields": {
+        "quiz": 1,
+        "text": "The war ended on November 11 1918."
+    }
+}, {
+    "model": "classroom.question",
+    "pk": 4,
+    "fields": {
+        "quiz": 1,
+        "text": "The name of the new government in Germany was called the Wiemar Republic."
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 1,
+    "fields": {
+        "question": 1,
+        "text": "June 29 of 1919",
+        "is_correct": true
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 2,
+    "fields": {
+        "question": 1,
+        "text": "June 29 of 1920",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 3,
+    "fields": {
+        "question": 1,
+        "text": "March 29 of 1919",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 4,
+    "fields": {
+        "question": 1,
+        "text": "August 29 of 1920",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 5,
+    "fields": {
+        "question": 2,
+        "text": "How much money did Germany have to pay as a reparation?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 6,
+    "fields": {
+        "question": 2,
+        "text": "Which countries were involved in World War 1?",
+        "is_correct": true
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 7,
+    "fields": {
+        "question": 2,
+        "text": "What does BRAT stand for in the Treaty of Versailles?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 8,
+    "fields": {
+        "question": 2,
+        "text": "What does MAIN stand for when it comes to the causes of the first world war?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 9,
+    "fields": {
+        "question": 3,
+        "text": "When was the Treaty of Versailles signed?",
+        "is_correct": true
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 10,
+    "fields": {
+        "question": 3,
+        "text": "Why did Germany declare war on Russia?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 11,
+    "fields": {
+        "question": 3,
+        "text": "When did World War 1 begin?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 12,
+    "fields": {
+        "question": 3,
+        "text": "When did World War 1 end?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 13,
+    "fields": {
+        "question": 4,
+        "text": "What does MAIN stand for when it comes to the causes of the first world war?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 14,
+    "fields": {
+        "question": 4,
+        "text": "What was the name of the new government in Germany after World War 1?",
+        "is_correct": true
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 15,
+    "fields": {
+        "question": 4,
+        "text": "Were the Big Three happy about the outcome of the Treaty of Versailles?",
+        "is_correct": false
+    }
+}, {
+    "model": "classroom.answer",
+    "pk": 16,
+    "fields": {
+        "question": 4,
+        "text": "How much money did Germany have to pay as a reparation?",
+        "is_correct": false
+    }
+},{
+    "model": "classroom.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$fBZ6FNGxOrNT$O53zRTxQFRUSqX+THFIxWZn0evHJE0l32ST2BA0aKy4=",
+        "last_login": "2018-06-21T05:34:02.608Z",
+        "is_superuser": false,
+        "username": "suhail",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-06-21T04:47:59.795Z",
+        "is_student": true,
+        "is_teacher": false,
+        "groups": [],
+        "user_permissions": []
+    }
+}, {
+    "model": "classroom.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$qSn4XCPpb6Ry$XjIgpmcuUzajsPso6UWzDUSNDMbC6bwTQYUuUghk8PY=",
+        "last_login": "2018-06-21T05:35:05.133Z",
+        "is_superuser": false,
+        "username": "sumee",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-06-21T04:48:26.868Z",
+        "is_student": false,
+        "is_teacher": true,
+        "groups": [],
+        "user_permissions": []
+    }
+}, {
+    "model": "classroom.quiz",
+    "pk": 1,
+    "fields": {
+        "owner": 2,
+        "name": "World War 1",
+        "subject": 5
+    }
+}, {
+    "model": "classroom.student",
+    "pk": 1,
+    "fields": {
+        "interests": [2, 3, 5]
+    }
+}]

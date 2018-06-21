@@ -29,6 +29,11 @@ Create the database:
 python manage.py migrate
 ```
 
+Load datas, some questions, a **teacher**(user: `sumee`,pass: `sumee1910`) and a **student**(user: `suhail`,pass: `sumee1910`) 
+```bash
+python manage.py loaddata datas.json
+```
+
 Finally, run the development server:
 
 ```bash
