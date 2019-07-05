@@ -7,10 +7,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
+from django.views import View
 
 from ..decorators import student_required
 from ..forms import StudentInterestsForm, StudentSignUpForm, TakeQuizForm
-from ..models import Quiz, Student, TakenQuiz, User
+from ..models import Quiz, Student, TakenQuiz, User, Question
 
 
 class StudentSignUpView(CreateView):
@@ -59,6 +60,23 @@ class QuizListView(ListView):
             .annotate(questions_count=Count('questions')) \
             .filter(questions_count__gt=0)
         return queryset
+
+
+@method_decorator([login_required, student_required], name='dispatch')
+class QuizResultsView(View):
+    template_name = 'classroom/students/quiz_result.html'
+
+    def get(self, request, *args, **kwargs):        
+        quiz = Quiz.objects.get(id = kwargs['pk'])
+        if not TakenQuiz.objects.filter(student = request.user.student, quiz = quiz):
+            """
+            Don't show the result if the user didn't attempted the quiz
+            """
+            return render(request, '404.html')
+        questions = Question.objects.filter(quiz =quiz)
+        
+        # questions = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'questions':questions, 'quiz':quiz})
 
 
 @method_decorator([login_required, student_required], name='dispatch')

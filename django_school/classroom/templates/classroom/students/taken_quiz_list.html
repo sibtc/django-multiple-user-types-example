@@ -14,7 +14,7 @@
       <tbody>
         {% for taken_quiz in taken_quizzes %}
           <tr>
-            <td>{{ taken_quiz.quiz.name }}</td>
+            <td><a href="{% url 'students:student_quiz_results' taken_quiz.quiz.id %}">{{ taken_quiz.quiz.name }}</a></td>
             <td>{{ taken_quiz.quiz.subject.get_html_badge }}</td>
             <td>{{ taken_quiz.score }}</td>
           </tr>

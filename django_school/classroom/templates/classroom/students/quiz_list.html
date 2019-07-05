@@ -7,8 +7,8 @@
       <thead>
         <tr>
           <th>Quiz</th>
-          <th>Subject</th>
-          <th>Length</th>
+          <th class="d-none d-sm-table-cell">Subject</th>
+          <th class="d-none d-sm-table-cell">Length</th>
           <th></th>
         </tr>
       </thead>
@@ -16,8 +16,8 @@
         {% for quiz in quizzes %}
           <tr>
             <td class="align-middle">{{ quiz.name }}</td>
-            <td class="align-middle">{{ quiz.subject.get_html_badge }}</td>
-            <td class="align-middle">{{ quiz.questions_count }} questions</td>
+            <td class="align-middle d-none d-sm-table-cell">{{ quiz.subject.get_html_badge }}</td>
+            <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }} questions</td>
             <td class="text-right">
               <a href="{% url 'students:take_quiz' quiz.pk %}" class="btn btn-primary">Start quiz</a>
             </td>
