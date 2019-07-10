@@ -18,15 +18,19 @@ First, clone the repository to your local machine:
 git clone https://github.com/suhailvs/django-schools
 ```
 
-Install the requirements:
+Create Virtual Env and Install the requirements:
 
 ```bash
+cd django-schools
+python3 -m venv env
+source ./env/bin/activate
 pip install -r requirements.txt
 ```
 
 Create the database:
 
 ```bash
+cd django-schools
 python manage.py migrate
 ```
 
@@ -41,7 +45,17 @@ Finally, run the development server:
 python manage.py runserver
 ```
 
-The project will be available at http://127.0.0.1:8000.
+The project will be available at http://127.0.0.1:8000, Login using::
+
+**Teacher**
+
+username: `sumee`
+password: `sumee1910`
+
+**Student**
+
+username: `suhail`
+password: `sumee1910`
 
 
 ## License
