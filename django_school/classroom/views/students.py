@@ -132,5 +132,7 @@ def take_quiz(request, pk):
         'quiz': quiz,
         'question': question,
         'form': form,
-        'progress': progress
+        'progress': progress,
+        'answered_questions': total_questions - total_unanswered_questions,
+        'total_questions': total_questions
     })
