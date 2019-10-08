@@ -37,7 +37,7 @@
             </div>
             <div class="col-6 text-right">
               {% if user.is_authenticated %}
-                <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Log out</a>.</p>
+                <p class="pt-3"><strong>{{ user.username }}{% if user.is_student %} - {{user.student.score}}{% endif %}</strong> | <a href="{% url 'logout' %}">Log out</a>.</p>
               {% else %}
                 <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
                 <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
@@ -49,9 +49,9 @@
               {% for message in messages %}
                 <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
                   {{ message }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                  </button> -->
                 </div>
               {% endfor %}
               {% block content %}

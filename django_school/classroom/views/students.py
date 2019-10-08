@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -68,7 +68,8 @@ class QuizResultsView(View):
 
     def get(self, request, *args, **kwargs):        
         quiz = Quiz.objects.get(id = kwargs['pk'])
-        if not TakenQuiz.objects.filter(student = request.user.student, quiz = quiz):
+        taken_quiz = TakenQuiz.objects.filter(student = request.user.student, quiz = quiz)
+        if not taken_quiz:
             """
             Don't show the result if the user didn't attempted the quiz
             """
@@ -76,7 +77,8 @@ class QuizResultsView(View):
         questions = Question.objects.filter(quiz =quiz)
         
         # questions = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'questions':questions, 'quiz':quiz})
+        return render(request, self.template_name, {'questions':questions, 
+            'quiz':quiz, 'percentage': taken_quiz[0].percentage})
 
 
 @method_decorator([login_required, student_required], name='dispatch')
@@ -118,12 +120,14 @@ def take_quiz(request, pk):
                     return redirect('students:take_quiz', pk)
                 else:
                     correct_answers = student.quiz_answers.filter(answer__question__quiz=quiz, answer__is_correct=True).count()
-                    score = round((correct_answers / total_questions) * 100.0, 2)
-                    TakenQuiz.objects.create(student=student, quiz=quiz, score=score)
-                    if score < 50.0:
-                        messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, score))
+                    percentage = round((correct_answers / total_questions) * 100.0, 2)
+                    TakenQuiz.objects.create(student=student, quiz=quiz, score=correct_answers, percentage= percentage)
+                    student.score = TakenQuiz.objects.filter(student=student).aggregate(Sum('score'))['score__sum']
+                    student.save()
+                    if percentage < 50.0:
+                        messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, percentage))
                     else:
-                        messages.success(request, 'Congratulations! You completed the quiz %s with success! You scored %s points.' % (quiz.name, score))
+                        messages.success(request, 'Congratulations! You completed the quiz %s with success! You scored %s points.' % (quiz.name, percentage))
                     return redirect('students:quiz_list')
     else:
         form = TakeQuizForm(question=question)

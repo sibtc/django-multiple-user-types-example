@@ -6,6 +6,11 @@
 
 <h2>{{quiz.name}}</h2>
 {{ quiz.subject.get_html_badge }}
+
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{percentage}}%" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100">{{percentage}}%</div>
+</div>
+<hr>
 {% for question in questions %}
 <div class="card">
   <div class="card-body">

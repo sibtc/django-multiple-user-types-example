@@ -22,7 +22,7 @@
         <tr>
           <th>Student</th>
           <th>Date</th>
-          <th>Score</th>
+          <th>Percentage</th>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +30,7 @@
           <tr>
             <td>{{ taken_quiz.student.user.username }}</td>
             <td>{{ taken_quiz.date|naturaltime }}</td>
-            <td>{{ taken_quiz.score }}</td>
+            <td>{{ taken_quiz.percentage }}</td>
           </tr>
         {% endfor %}
       </tbody>
