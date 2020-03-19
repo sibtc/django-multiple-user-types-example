@@ -1,2 +1,2 @@
-Django==2.2.3
-django-crispy-forms==1.7.0
+Django==3.0.4
+django-crispy-forms==1.9.0

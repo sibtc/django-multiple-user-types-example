@@ -1,209 +1,69 @@
-[{
-    "model": "classroom.question",
-    "pk": 1,
-    "fields": {
-        "quiz": 1,
-        "text": "When was the Treaty of Versailles signed?"
-    }
-}, {
-    "model": "classroom.question",
-    "pk": 2,
-    "fields": {
-        "quiz": 1,
-        "text": "Britain, France, USA, Germany, Italy, and Russia."
-    }
-}, {
-    "model": "classroom.question",
-    "pk": 3,
-    "fields": {
-        "quiz": 1,
-        "text": "The war ended on November 11 1918."
-    }
-}, {
-    "model": "classroom.question",
-    "pk": 4,
-    "fields": {
-        "quiz": 1,
-        "text": "The name of the new government in Germany was called the Wiemar Republic."
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 1,
-    "fields": {
-        "question": 1,
-        "text": "June 29 of 1919",
-        "is_correct": true
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 2,
-    "fields": {
-        "question": 1,
-        "text": "June 29 of 1920",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 3,
-    "fields": {
-        "question": 1,
-        "text": "March 29 of 1919",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 4,
-    "fields": {
-        "question": 1,
-        "text": "August 29 of 1920",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 5,
-    "fields": {
-        "question": 2,
-        "text": "How much money did Germany have to pay as a reparation?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 6,
-    "fields": {
-        "question": 2,
-        "text": "Which countries were involved in World War 1?",
-        "is_correct": true
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 7,
-    "fields": {
-        "question": 2,
-        "text": "What does BRAT stand for in the Treaty of Versailles?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 8,
-    "fields": {
-        "question": 2,
-        "text": "What does MAIN stand for when it comes to the causes of the first world war?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 9,
-    "fields": {
-        "question": 3,
-        "text": "When was the Treaty of Versailles signed?",
-        "is_correct": true
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 10,
-    "fields": {
-        "question": 3,
-        "text": "Why did Germany declare war on Russia?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 11,
-    "fields": {
-        "question": 3,
-        "text": "When did World War 1 begin?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 12,
-    "fields": {
-        "question": 3,
-        "text": "When did World War 1 end?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 13,
-    "fields": {
-        "question": 4,
-        "text": "What does MAIN stand for when it comes to the causes of the first world war?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 14,
-    "fields": {
-        "question": 4,
-        "text": "What was the name of the new government in Germany after World War 1?",
-        "is_correct": true
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 15,
-    "fields": {
-        "question": 4,
-        "text": "Were the Big Three happy about the outcome of the Treaty of Versailles?",
-        "is_correct": false
-    }
-}, {
-    "model": "classroom.answer",
-    "pk": 16,
-    "fields": {
-        "question": 4,
-        "text": "How much money did Germany have to pay as a reparation?",
-        "is_correct": false
-    }
-},{
-    "model": "classroom.user",
-    "pk": 1,
-    "fields": {
-        "password": "pbkdf2_sha256$100000$fBZ6FNGxOrNT$O53zRTxQFRUSqX+THFIxWZn0evHJE0l32ST2BA0aKy4=",
-        "last_login": "2018-06-21T05:34:02.608Z",
-        "is_superuser": false,
-        "username": "suhail",
-        "first_name": "",
-        "last_name": "",
-        "email": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2018-06-21T04:47:59.795Z",
-        "is_student": true,
-        "is_teacher": false,
-        "groups": [],
-        "user_permissions": []
-    }
-}, {
-    "model": "classroom.user",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$100000$qSn4XCPpb6Ry$XjIgpmcuUzajsPso6UWzDUSNDMbC6bwTQYUuUghk8PY=",
-        "last_login": "2018-06-21T05:35:05.133Z",
-        "is_superuser": false,
-        "username": "sumee",
-        "first_name": "",
-        "last_name": "",
-        "email": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2018-06-21T04:48:26.868Z",
-        "is_student": false,
-        "is_teacher": true,
-        "groups": [],
-        "user_permissions": []
-    }
-}, {
-    "model": "classroom.quiz",
-    "pk": 1,
-    "fields": {
-        "owner": 2,
-        "name": "World War 1",
-        "subject": 5
-    }
-}, {
-    "model": "classroom.student",
-    "pk": 1,
-    "fields": {
-        "interests": [2, 3, 5]
-    }
-}]
+[
+    {"model": "classroom.question", "pk": 1, "fields": {"quiz": 1, "text": "When was the Treaty of Versailles signed?"}}, 
+    {"model": "classroom.question", "pk": 2, "fields": {"quiz": 1, "text": "Britain, France, USA, Germany, Italy, and Russia."}}, 
+    {"model": "classroom.question", "pk": 3, "fields": {"quiz": 1, "text": "The war ended on November 11 1918."}}, 
+    {"model": "classroom.question", "pk": 4, "fields": {"quiz": 1, "text": "The name of the new government in Germany was called the Wiemar Republic."}}, 
+    
+    {"model": "classroom.question", "pk": 5, "fields": {"quiz": 2, "text": "An advantage of using solar power is"}}, 
+    {"model": "classroom.question", "pk": 6, "fields": {"quiz": 2, "text": "An advantage of using hydroelectric power is"}}, 
+    {"model": "classroom.question", "pk": 7, "fields": {"quiz": 2, "text": "Most utility companies in the U.S. dont use hydroelectric power because"}}, 
+    {"model": "classroom.question", "pk": 8, "fields": {"quiz": 2, "text": "Which energy source would be best for a city that has limited space and want to be effecient?"}}, 
+    {"model": "classroom.question", "pk": 9, "fields": {"quiz": 2, "text": "What is a major disadvantage of nuclear power?"}}, 
+    {"model": "classroom.question", "pk": 10, "fields": {"quiz": 2, "text": "If a community were choosing between solar and wind; what advantage would make wind the best choice?"}}, 
+    {"model": "classroom.question", "pk": 11, "fields": {"quiz": 2, "text": "An advantage of burning coal for energy is"}}, 
+    {"model": "classroom.question", "pk": 12, "fields": {"quiz": 2, "text": "An advantage of using natural gas as a form of energy is"}}, 
+    {"model": "classroom.question", "pk": 13, "fields": {"quiz": 2, "text": "What do geothermal and solar energy have in common?"}}, 
+
+    {"model": "classroom.answer", "pk": 1, "fields": {"question": 1, "text": "June 29 of 1919", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 2, "fields": {"question": 1, "text": "June 29 of 1920", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 3, "fields": {"question": 1, "text": "March 29 of 1919", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 4, "fields": {"question": 1, "text": "August 29 of 1920", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 5, "fields": {"question": 2, "text": "How much money did Germany have to pay as a reparation?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 6, "fields": {"question": 2, "text": "Which countries were involved in World War 1?", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 7, "fields": {"question": 2, "text": "What does BRAT stand for in the Treaty of Versailles?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 8, "fields": {"question": 2, "text": "What does MAIN stand for when it comes to the causes of the first world war?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 9, "fields": {"question": 3, "text": "When was the Treaty of Versailles signed?", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 10, "fields": {"question": 3, "text": "Why did Germany declare war on Russia?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 11, "fields": {"question": 3, "text": "When did World War 1 begin?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 12, "fields": {"question": 3, "text": "When did World War 1 end?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 13, "fields": {"question": 4, "text": "What does MAIN stand for when it comes to the causes of the first world war?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 14, "fields": {"question": 4, "text": "What was the name of the new government in Germany after World War 1?", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 15, "fields": {"question": 4, "text": "Were the Big Three happy about the outcome of the Treaty of Versailles?", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 16, "fields": {"question": 4, "text": "How much money did Germany have to pay as a reparation?", "is_correct": false}}, 
+
+    {"model": "classroom.answer", "pk": 17, "fields": {"question": 5, "text": "no greenhouse gases", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 18, "fields": {"question": 5, "text": "lots of pollution", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 19, "fields": {"question": 5, "text": "it is available even on cloudy days", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 20, "fields": {"question": 6, "text": "reservoirs can be used for irrigation of crops", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 21, "fields": {"question": 6, "text": "sometimes surrounding area get flooded", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 22, "fields": {"question": 6, "text": "the normal flow of the water is diverted", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 23, "fields": {"question": 7, "text": "the plants are expensive to build and use expensive machinery", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 24, "fields": {"question": 7, "text": "reservoirs can be used to irrigate crops and they dont want to help farmers", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 25, "fields": {"question": 7, "text": "the cause a lot of greenhouse gass", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 26, "fields": {"question": 8, "text": "solar-costly to build and 6%-30% efficient", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 27, "fields": {"question": 8, "text": "Wind-turbines need lots of free space 40%-60% efficient", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 28, "fields": {"question": 8, "text": "Natural gas-can be used in small areas 50%-60% efficient", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 29, "fields": {"question": 9, "text": "it produces small amounts of power", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 30, "fields": {"question": 9, "text": "the by-product(waste) is nuclear radiation", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 31, "fields": {"question": 9, "text": "power plants are inexpensive to build", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 32, "fields": {"question": 10, "text": "locations for turbines are limited because the wind can be blocked", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 33, "fields": {"question": 10, "text": "solar needs a back up system for cloudy days", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 34, "fields": {"question": 10, "text": "wind energy is less expensive and it is limitless", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 35, "fields": {"question": 11, "text": "it is an inexpensive source of energy", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 36, "fields": {"question": 11, "text": "it does not pollute the air", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 37, "fields": {"question": 11, "text": "it is a renewable energy source", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 38, "fields": {"question": 12, "text": "it is more expensive compared to other fossil fuels", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 39, "fields": {"question": 12, "text": "It produces low emissions(pollution) compared to other fossil fuels", "is_correct": true}}, 
+    {"model": "classroom.answer", "pk": 40, "fields": {"question": 12, "text": "there is a more limited supply compared to other fossil fuels", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 41, "fields": {"question": 13, "text": "they both use sunlight to generate energy", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 42, "fields": {"question": 13, "text": "both are non-renewable energy sources", "is_correct": false}}, 
+    {"model": "classroom.answer", "pk": 43, "fields": {"question": 13, "text": "neither produce greenhouse gass", "is_correct": true}}, 
+
+    {"model": "classroom.quiz", "pk": 1, "fields": {"owner": 1, "name": "World War 1", "subject": 5}}, 
+    {"model": "classroom.quiz", "pk": 2, "fields": {"owner": 1, "name": "EnergySources", "subject": 4}}, 
+
+    {"model": "classroom.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$180000$og6o8PzLsRNC$/Ay4/y7/plwM2t3MGrzUoGvTKCqRlrSYmCwrkL9VrVY=", "last_login": "2020-03-19T02:20:24.490Z", "is_superuser": false, "username": "teacher", "first_name": "Teacher", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2020-03-19T02:20:24.014Z", "is_student": false, "is_teacher": true, "groups": [], "user_permissions": []}}, 
+    {"model": "classroom.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$180000$DBSRJ8mc0QUn$aCBAYWUqewnK+nJ1FqSBQpnvY33P/FpK2CAYyQuX1p0=", "last_login": "2020-03-19T02:19:48.856Z", "is_superuser": false, "username": "student", "first_name": "Student", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2020-03-19T02:19:48.411Z", "is_student": true, "is_teacher": false, "groups": [], "user_permissions": []}}, 
+
+    {"model": "classroom.student", "pk": 2, "fields": {"score": 0, "interests": [2, 3, 4, 5]}}
+]
