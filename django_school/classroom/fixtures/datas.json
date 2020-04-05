@@ -62,7 +62,7 @@
     {"model": "classroom.quiz", "pk": 1, "fields": {"owner": 1, "name": "World War 1", "subject": 5}}, 
     {"model": "classroom.quiz", "pk": 2, "fields": {"owner": 1, "name": "EnergySources", "subject": 4}}, 
 
-    {"model": "classroom.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$180000$og6o8PzLsRNC$/Ay4/y7/plwM2t3MGrzUoGvTKCqRlrSYmCwrkL9VrVY=", "last_login": "2020-03-19T02:20:24.490Z", "is_superuser": false, "username": "teacher", "first_name": "Teacher", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2020-03-19T02:20:24.014Z", "is_student": false, "is_teacher": true, "groups": [], "user_permissions": []}}, 
+    {"model": "classroom.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$180000$og6o8PzLsRNC$/Ay4/y7/plwM2t3MGrzUoGvTKCqRlrSYmCwrkL9VrVY=", "last_login": "2020-03-19T02:20:24.490Z", "is_superuser": false, "username": "teacher", "first_name": "Teacher", "last_name": "", "email": "", "is_staff": true, "is_active": true, "date_joined": "2020-03-19T02:20:24.014Z", "is_student": false, "is_teacher": true, "groups": [], "user_permissions": []}}, 
     {"model": "classroom.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$180000$DBSRJ8mc0QUn$aCBAYWUqewnK+nJ1FqSBQpnvY33P/FpK2CAYyQuX1p0=", "last_login": "2020-03-19T02:19:48.856Z", "is_superuser": false, "username": "student", "first_name": "Student", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2020-03-19T02:19:48.411Z", "is_student": true, "is_teacher": false, "groups": [], "user_permissions": []}}, 
 
     {"model": "classroom.student", "pk": 2, "fields": {"score": 0, "interests": [2, 3, 4, 5]}}
