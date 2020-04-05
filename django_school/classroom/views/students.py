@@ -128,7 +128,8 @@ def take_quiz(request, pk):
                         messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, percentage))
                     else:
                         messages.success(request, 'Congratulations! You completed the quiz %s with success! You scored %s points.' % (quiz.name, percentage))
-                    return redirect('students:quiz_list')
+                    # return redirect('students:quiz_list')
+                    return redirect('students:student_quiz_results', pk)
     else:
         form = TakeQuizForm(question=question)
 
