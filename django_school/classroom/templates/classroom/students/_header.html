@@ -11,4 +11,7 @@
   <li class="nav-item">
     <a class="nav-link{% if active == 'taken' %} active{% endif %}" href="{% url 'students:taken_quiz_list' %}">Taken</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link{% if active == 'students' %} active{% endif %}" href="{% url 'students:student_list' %}">Students</a>
+  </li>
 </ul>

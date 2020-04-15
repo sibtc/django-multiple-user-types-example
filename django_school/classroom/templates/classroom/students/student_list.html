@@ -1,0 +1,60 @@
+<!-- To show list of students and teachers tab for both users -->
+{% extends 'base.html' %}
+{% load quiz_extras %}
+
+{% block content %}
+  {% include 'classroom/students/_header.html' with active='students' %}
+<form method='GET'>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name='q' value='{{ request.GET.q }}' placeholder="Filter by name">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit">Search...</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<br>
+<div class="row">
+{% for user in users %}
+  <div class="col-sm-3">
+    <div class="media">
+      <a>
+        <img class="mr-3" src="{{ user.username|gravatar_url:50 }}" alt="{{user.get_full_name}}">
+      </a>
+      <div class="media-body" style="font-size: 12px">
+        <!-- <a href="#">{{user.get_full_name}}</a><br> -->
+        {{user.username}}<br>
+        <strong>{{user.student.score}}</strong>
+      </div>
+    </div>
+  </div>
+{% empty %}
+  <div class="col-sm-6"><p class="text-warning">No student matched your search.</p></div>
+{% endfor %}
+</div>
+
+{% if is_paginated %}
+  <ul class="pagination float-right">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link" >{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}
