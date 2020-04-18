@@ -2,6 +2,14 @@
 {% extends 'base.html' %}
 {% load quiz_extras %}
 
+{% block css %}
+<style type="text/css">
+  .media {
+    margin-top: 10px
+  }
+</style>
+{% endblock %}
+
 {% block content %}
   {% include 'classroom/students/_header.html' with active='students' %}
 <form method='GET'>

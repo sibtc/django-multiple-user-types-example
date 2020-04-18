@@ -1,33 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'datatables/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
 
 {% block content %}
   {% include 'classroom/students/_header.html' with active='new' %}
-  <div class="card">
-    <table class="table mb-0">
-      <thead>
+  
+  <table class="table table-striped table-bordered mb-0" id="tb_quizlist" >
+    <thead>
+      <tr>
+        <th>Quiz</th>
+        <th class="d-none d-sm-table-cell">Subject</th>
+        <th class="d-none d-sm-table-cell">Length</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quiz in quizzes %}
         <tr>
-          <th>Quiz</th>
-          <th class="d-none d-sm-table-cell">Subject</th>
-          <th class="d-none d-sm-table-cell">Length</th>
-          <th></th>
+          <td class="align-middle">{{ quiz.name }}</td>
+          <td class="align-middle d-none d-sm-table-cell">{{ quiz.subject.get_html_badge }}</td>
+          <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }} questions</td>
+          <td class="text-right">
+            <a href="{% url 'students:take_quiz' quiz.pk %}" class="btn btn-primary">Start quiz</a>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        {% for quiz in quizzes %}
-          <tr>
-            <td class="align-middle">{{ quiz.name }}</td>
-            <td class="align-middle d-none d-sm-table-cell">{{ quiz.subject.get_html_badge }}</td>
-            <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }} questions</td>
-            <td class="text-right">
-              <a href="{% url 'students:take_quiz' quiz.pk %}" class="btn btn-primary">Start quiz</a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td class="bg-light text-center font-italic" colspan="4">No quiz matching your interests right now.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+      {% empty %}
+        <tr>
+          <td class="bg-light text-center font-italic" colspan="4">No quiz matching your interests right now.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tb_quizlist').DataTable();
+});
+</script>
 {% endblock %}
