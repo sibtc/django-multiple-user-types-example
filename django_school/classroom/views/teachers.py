@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
 from django.db import transaction
 from django.db.models import Avg, Count
 from django.forms import inlineformset_factory
@@ -12,8 +14,9 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 
 from ..decorators import teacher_required
 from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
-from ..models import Answer, Question, Quiz, User
+from ..models import Answer, Question, Quiz
 
+User = get_user_model()
 
 class TeacherSignUpView(CreateView):
     model = User

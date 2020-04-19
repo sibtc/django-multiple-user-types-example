@@ -14,8 +14,9 @@ from django.views import View
 
 from ..decorators import student_required
 from ..forms import StudentInterestsForm, StudentSignUpForm, TakeQuizForm
-from ..models import Quiz, Student, TakenQuiz, User, Question
+from ..models import Quiz, Student, TakenQuiz, Question
 
+User = get_user_model()
 
 class StudentSignUpView(CreateView):
     model = User
@@ -151,18 +152,18 @@ class StudentList(ListView):
     # model = get_user_model()
     paginate_by = 36
     template_name = 'classroom/students/student_list.html'
-    context_object_name = 'users'
+    context_object_name = 'students'
 
     def get_queryset(self):
         query = self.request.GET.get('q','')
         User = get_user_model()
 
-        queryset = User.objects.filter(is_student = True).order_by('-student__score')
+        queryset = Student.objects.order_by('-score')
         if query:
             # queryset = queryset.annotate(
             #     full_name = Concat('first_name','last_name')
             # ).filter(full_name__icontains = query)
-            queryset = queryset.filter(username__icontains = query)
+            queryset = queryset.filter(user__username__icontains = query)
         return queryset
 
     

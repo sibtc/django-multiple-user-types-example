@@ -1,4 +1,4 @@
-<!-- To show list of students and teachers tab for both users -->
+<!-- To show list of students -->
 {% extends 'base.html' %}
 {% load quiz_extras %}
 
@@ -16,7 +16,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" name='q' value='{{ request.GET.q }}' placeholder="Filter by name">
+        <input type="text" class="form-control" name='q' value='{{ request.GET.q }}' placeholder="Filter by username">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="submit">Search...</button>
         </div>
@@ -26,16 +26,17 @@
 </form>
 <br>
 <div class="row">
-{% for user in users %}
+{% for student in students %}
   <div class="col-sm-3">
     <div class="media">
       <a>
-        <img class="mr-3" src="{{ user.username|gravatar_url:50 }}" alt="{{user.get_full_name}}">
+        <img class="mr-3" src="{{ student.user.username|gravatar_url:50 }}" alt="{{student.user.get_full_name}}">
       </a>
       <div class="media-body" style="font-size: 12px">
         <!-- <a href="#">{{user.get_full_name}}</a><br> -->
-        {{user.username}}<br>
-        <strong>{{user.student.score}}</strong>
+        {{student.user.username}}<br>
+        <strong>{{student.score}}</strong><br>
+        {{student.taken_quizzes.all|top_subject}}
       </div>
     </div>
   </div>
