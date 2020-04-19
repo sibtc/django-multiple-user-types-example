@@ -8,7 +8,7 @@
 {% block content %}
   {% include 'classroom/students/_header.html' with active='new' %}
   
-  <table class="table table-striped table-bordered mb-0" id="tb_quizlist" >
+  <table class="table table-bordered mb-0" id="tb_quizlist" >
     <thead>
       <tr>
         <th>Quiz</th>
@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       {% for quiz in quizzes %}
-        <tr>
+        <tr{% if quiz.subject.id in student_subjects %} style="background: #fdf7e3"{%endif%}>
           <td class="align-middle">{{ quiz.name }}</td>
           <td class="align-middle d-none d-sm-table-cell">{{ quiz.subject.get_html_badge }}</td>
           <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }} questions</td>
