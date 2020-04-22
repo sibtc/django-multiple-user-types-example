@@ -17,7 +17,7 @@
       <tr>
         <th>Quiz</th>
         <th class="d-none d-sm-table-cell">Subject</th>
-        <th class="d-none d-sm-table-cell">Length</th>
+        <th class="d-none d-sm-table-cell">Questions</th>
         <th></th>
       </tr>
     </thead>
@@ -26,8 +26,8 @@
         <tr{% if quiz.subject.id in student_subjects %} style="background: #fdf7e3"{%endif%}>
           <td class="align-middle">{{ quiz.name }}</td>
           <td class="align-middle d-none d-sm-table-cell">{{ quiz.subject.get_html_badge }}</td>
-          <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }} questions</td>
-          <td class="text-right">
+          <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }}</td>
+          <td class="text-right" data-orderable="false">
             <a href="{% url 'students:take_quiz' quiz.pk %}" class="btn btn-primary">Start quiz</a>
           </td>
         </tr>
