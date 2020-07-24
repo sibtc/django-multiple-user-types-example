@@ -115,7 +115,8 @@ class QuizResultsView(DetailView):
         extra_context = {
             'taken_quizzes': taken_quizzes,
             'total_taken_quizzes': total_taken_quizzes,
-            'quiz_score': quiz_score
+            'quiz_score': quiz_score,
+            'total_questions':quiz.questions.count()
         }
         kwargs.update(extra_context)
         return super().get_context_data(**kwargs)

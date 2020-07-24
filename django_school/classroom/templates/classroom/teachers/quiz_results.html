@@ -11,17 +11,18 @@
     </ol>
   </nav>
   <h2 class="mb-3">{{ quiz.name }} Results</h2>
-
+  <p class="lead">Total Questions: {{total_questions}}</p>
   <div class="card">
     <div class="card-header">
       <strong>Taken Quizzes</strong>
-      <span class="badge badge-pill badge-primary float-right">Average Score: {{ quiz_score.average_score|default_if_none:0.0 }}</span>
+      <span class="badge badge-pill badge-primary float-right">Average Score: {{ quiz_score.average_score|default_if_none:0.0|floatformat:2 }}</span>
     </div>
     <table class="table mb-0">
       <thead>
         <tr>
           <th>Student</th>
           <th>Date</th>
+          <th>Score</th>
           <th>Percentage</th>
         </tr>
       </thead>
@@ -30,6 +31,7 @@
           <tr>
             <td>{{ taken_quiz.student.user.username }}</td>
             <td>{{ taken_quiz.date|naturaltime }}</td>
+            <td>{{ taken_quiz.score }}</td>
             <td>{{ taken_quiz.percentage }}</td>
           </tr>
         {% endfor %}
