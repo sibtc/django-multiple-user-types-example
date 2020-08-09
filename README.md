@@ -6,7 +6,7 @@
 
 ## Host this site on dedicated server
 
-if you want to host this site on a dedicated server:
+if you want to host this site on a dedicated server, contact me at suhailvs@gmail.com:
 
 * server costs - 5$/month
 * domain name(.com) registration - 10$/year
