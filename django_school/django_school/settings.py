@@ -140,3 +140,10 @@ MESSAGE_TAGS = {
 # Third party apps configuration
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Handle Logged-in User Session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_COOKIE_AGE = 600  # set just 10 minutes
+
+SESSION_SAVE_EVERY_REQUEST = True
