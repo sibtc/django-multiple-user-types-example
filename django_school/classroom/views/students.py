@@ -29,7 +29,7 @@ class StudentSignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('students:quiz_list')
 
 
@@ -170,4 +170,15 @@ class StudentList(ListView):
             queryset = queryset.filter(user__username__icontains = query)
         return queryset
 
-    
+@method_decorator([login_required, student_required], name='dispatch')
+class StudentDetail(View):
+    """Show Details of a Student"""
+    def get(self, request, **kwargs):
+        student = Student.objects.get(user_id = kwargs['student'])
+        subjects = student.taken_quizzes.all() \
+            .values('quiz__subject__name','quiz__subject__color') \
+            .annotate(score = Sum('score')) \
+            .order_by('-score')
+        
+        return render(request,'classroom/students/student_detail.html', 
+            {'student': student, 'subjects':subjects})

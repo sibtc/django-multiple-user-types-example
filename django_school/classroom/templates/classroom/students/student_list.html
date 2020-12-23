@@ -29,12 +29,12 @@
 {% for student in students %}
   <div class="col-sm-3">
     <div class="media">
-      <a>
+      <a href="{% url 'students:student_detail' student=student.user.id %}">
         <img class="mr-3" src="{{ student.user.username|gravatar_url:50 }}" alt="{{student.user.get_full_name}}">
       </a>
       <div class="media-body" style="font-size: 12px">
         <!-- <a href="#">{{user.get_full_name}}</a><br> -->
-        {{student.user.username}}<br>
+        <a href="{% url 'students:student_detail' student=student.user.id %}">{{student.user.username}}</a><br>
         <strong>{{student.score}}</strong><br>
         {{student.taken_quizzes.all|top_subject}}
       </div>
