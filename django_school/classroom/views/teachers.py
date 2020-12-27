@@ -215,3 +215,17 @@ class QuestionDeleteView(DeleteView):
     def get_success_url(self):
         question = self.get_object()
         return reverse('teachers:quiz_change', kwargs={'pk': question.quiz_id})
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class QuestionPreviewView(DetailView):
+    model = Question 
+    template_name = 'classroom/teachers/question_preview.html'
+    pk_url_kwarg = 'question_pk'
+
+    def get_context_data(self, **kwargs):
+        question = self.get_object()
+        kwargs['quiz'] = question.quiz
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return Question.objects.filter(quiz__owner=self.request.user)

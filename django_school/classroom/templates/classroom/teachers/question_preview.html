@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'teachers:quiz_change_list' %}">My Quizzes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'teachers:quiz_change' quiz.pk %}">{{ quiz.name }}</a></li>
+  </ol>
+</nav>
+<h2 class="mb-3">Question Preview</h2>
+
+<div class="card">
+  <div class="card-header">
+    {{question.text}}
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for answer in question.answers.all %}
+    
+      <li class="list-group-item">{{answer.text}}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{% endblock %}
