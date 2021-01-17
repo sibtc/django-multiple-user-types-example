@@ -69,7 +69,6 @@ class QuizListView(ListView):
         context['student_subjects'] = self.request.user.student.interests.values_list('pk', flat=True)
         return context
 
-
 @method_decorator([login_required, student_required], name='dispatch')
 class QuizResultsView(View):
     template_name = 'classroom/students/quiz_result.html'
@@ -151,7 +150,7 @@ def take_quiz(request, pk):
     })
 
 
-@method_decorator([login_required, student_required], name='dispatch')
+# @method_decorator([login_required, student_required], name='dispatch')
 class StudentList(ListView):
     # model = get_user_model()
     paginate_by = 36

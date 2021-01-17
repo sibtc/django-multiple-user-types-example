@@ -11,7 +11,11 @@
 {% endblock %}
 
 {% block content %}
+{% if request.user.is_active %}
   {% include 'classroom/students/_header.html' with active='students' %}
+{% else %}
+  {% include 'classroom/_guest_header.html' with active='students' %}
+{% endif %}
 <form method='GET'>
   <div class="row">
     <div class="col-sm-6">

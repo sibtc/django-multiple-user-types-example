@@ -4,17 +4,18 @@ from .views import classroom, students, teachers
 
 urlpatterns = [
     path('', classroom.home, name='home'),
+    path('about/', classroom.AboutView.as_view(), name='about'),
+    # path('quizzes/', classroom.QuizListView.as_view(), name='quiz_list'),
 
-    path('students/', include(([
-        path('', students.QuizListView.as_view(), name='quiz_list'),
-        path('s/', students.StudentList.as_view(), name='student_list'),
-        path('s/<int:student>/', students.StudentDetail.as_view(), name='student_detail'),
+    path('students/', include(([        
+        path('', students.StudentList.as_view(), name='student_list'),
+        path('<int:student>/', students.StudentDetail.as_view(), name='student_detail'),
         path('interests/', students.StudentInterestsView.as_view(), name='student_interests'),
         path('taken/', students.TakenQuizListView.as_view(), name='taken_quiz_list'),
+        path('quiz/', students.QuizListView.as_view(), name='quiz_list'),
         path('quiz/<int:pk>/', students.take_quiz, name='take_quiz'),        
         path('quiz/<int:pk>/studentresults/', students.QuizResultsView.as_view(), name='student_quiz_results'),
     ], 'classroom'), namespace='students')),
-
     path('teachers/', include(([
         path('', teachers.QuizListView.as_view(), name='quiz_change_list'),
         path('quiz/add/', teachers.QuizCreateView.as_view(), name='quiz_add'),
