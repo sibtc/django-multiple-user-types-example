@@ -4,14 +4,6 @@
 [![Django Version](https://img.shields.io/badge/django-3.0-brightgreen.svg)](https://djangoproject.com)
 [![CircleCI](https://circleci.com/gh/suhailvs/django-schools.svg?style=svg)](https://circleci.com/gh/suhailvs/django-schools)
 
-## Host this site on dedicated server
-
-if you want to host this site on a dedicated server, contact me at suhailvs@gmail.com:
-
-* server costs - 5$/month
-* domain name(.com) registration - 10$/year
-* you can customize this site at a rate of 10$/hour
-
 ## [demo](https://djangoschools.herokuapp.com/)
 
 This is an example project to illustrate an implementation of multiple user types. In this Django app, teachers can create quizzes and students can sign up and take quizzes related to their interests.
@@ -50,13 +42,13 @@ The project will be available at http://127.0.0.1:8000, Login using::
 
 **Teacher**
 
-username: `teacher`
-password: `teacher`
++ username: `teacher`
++ password: `teacher`
 
 **Student**
 
-username: `student`
-password: `student`
++ username: `student`
++ password: `student`
 
 
 ## License
