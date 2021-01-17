@@ -3,7 +3,11 @@
 {% load quiz_extras %}
 
 {% block content %}
-	{% include 'classroom/students/_header.html' with active='students' %}
+  {% if request.user.is_authenticated %}
+	 {% include 'classroom/students/_header.html' with active='students' %}
+  {% else %}
+    {% include 'classroom/_guest_header.html' with active='students' %}
+  {% endif %}
 
 <div class="row">
   <div class="col-md-4">

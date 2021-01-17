@@ -1,12 +1,17 @@
 from django.test import TestCase, Client
 
 from django.urls import reverse
+from django.template import Template, Context
+
+
+from classroom.models import Student
 
 class LoginPageTest(TestCase):
     fixtures = ["datas.json"]
 
     def setUp(self):
         self.client = Client()
+        self.student = Student.objects.get(user__username = 'student')
 
     def test_login_page_returns_correct_html(self):
         loginurl = reverse('login')
@@ -32,7 +37,34 @@ class LoginPageTest(TestCase):
         # self.assertEqual(response.redirect_chain[1][0],reverse('teachers:quiz_change_list'))
         # self.assertIn(b'My Quizzes', response.content)
 
-    
+    def test_guest_user_can_access_quiz_list(self):
+        home_url = reverse('home')
+        response = self.client.get(home_url)
+        student_list_url = reverse('students:student_list')
+        about_url = reverse('about')
+        
+        # there is tab view in homepage and check there is quiz list url in home page
+
+        tabs = f'''
+        <ul class="nav nav-tabs mb-3">          
+            <li class="nav-item"><a class="nav-link active" href="{home_url}">Quizzes</a></li>
+            <li class="nav-item"><a class="nav-link" href="{student_list_url}">Students</a></li>
+            <li class="nav-item"><a class="nav-link" href="{about_url}">About</a></li>
+        </ul>'''
+        
+        self.assertInHTML(tabs, response.content.decode())
+
+        quiz1 = '''<tr>
+            <td class="align-middle">World War 1</td>
+            <td class="align-middle d-none d-sm-table-cell"><span class="badge badge-primary" style="background-color: #ffc107">History</span></td>
+            <td class="align-middle d-none d-sm-table-cell">4</td>
+            <td class="text-right" data-orderable="false">
+                <a href="/students/quiz/1/" class="btn btn-primary">Start quiz</a>
+            </td>
+        </tr>
+        '''
+        self.assertInHTML(quiz1, response.content.decode())
+
     def test_guest_user_can_access_student_list(self):
         home_url = reverse('home')
         student_list_url = reverse('students:student_list')
@@ -65,31 +97,41 @@ class LoginPageTest(TestCase):
         '''
         self.assertInHTML(student_search_form, response.content.decode())
 
+        
+        # test students listed in the page
+        student_detail_url = reverse('students:student_detail', kwargs={'student':self.student.pk})
+        
 
-    def test_guest_user_can_access_quiz_list(self):
+        gravatar_url = Template('''
+            {% load quiz_extras %} 
+            <img class="mr-3" src="{{ student.user.username|gravatar_url:50 }}" alt="{{student.user.get_full_name}}">
+        ''').render(Context({'student':self.student}))
+
+        student_info = f'''
+            <div class="col-sm-3">
+                <div class="media">
+                    <a href="{student_detail_url}">{gravatar_url}</a>
+                    <div class="media-body" style="font-size: 12px">
+                    <a href="{student_detail_url}">{self.student.user.username}</a><br>
+                    <strong>0</strong><br>
+                </div>
+            </div>
+        '''
+        self.assertInHTML(student_info, response.content.decode())
+
+    def test_guest_user_can_access_student_detail(self):
         home_url = reverse('home')
-        response = self.client.get(home_url)
         student_list_url = reverse('students:student_list')
         about_url = reverse('about')
-        
-        # there is tab view in homepage and check there is quiz list url in home page
+
+        student_detail_url = reverse('students:student_detail', kwargs={'student':self.student.pk})
+        response = self.client.get(student_detail_url)
 
         tabs = f'''
         <ul class="nav nav-tabs mb-3">          
-            <li class="nav-item"><a class="nav-link active" href="{home_url}">Quizzes</a></li>
-            <li class="nav-item"><a class="nav-link" href="{student_list_url}">Students</a></li>
+            <li class="nav-item"><a class="nav-link" href="{home_url}">Quizzes</a></li>
+            <li class="nav-item"><a class="nav-link active" href="{student_list_url}">Students</a></li>
             <li class="nav-item"><a class="nav-link" href="{about_url}">About</a></li>
         </ul>'''
-        
         self.assertInHTML(tabs, response.content.decode())
-
-        quiz1 = '''<tr>
-            <td class="align-middle">World War 1</td>
-            <td class="align-middle d-none d-sm-table-cell"><span class="badge badge-primary" style="background-color: #ffc107">History</span></td>
-            <td class="align-middle d-none d-sm-table-cell">4</td>
-            <td class="text-right" data-orderable="false">
-                <a href="/students/quiz/1/" class="btn btn-primary">Start quiz</a>
-            </td>
-        </tr>
-        '''
-        self.assertInHTML(quiz1, response.content.decode())
+    
