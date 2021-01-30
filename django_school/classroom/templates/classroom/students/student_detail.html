@@ -8,7 +8,12 @@
   {% else %}
     {% include 'classroom/_guest_header.html' with active='students' %}
   {% endif %}
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'students:student_list' %}">Students</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{student.user.username}}</li>
+    </ol>
+</nav>
 <div class="row">
   <div class="col-md-4">
       <img class="img-thumbnail" src="{{ student.user.email|gravatar_url:200 }}" width="200" height="200" alt="@{{ student.user.email}}">

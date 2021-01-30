@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+  {% include 'classroom/_guest_header.html' %}
   {% if form.non_field_errors %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
       {% for error in form.non_field_errors %}

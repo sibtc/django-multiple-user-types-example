@@ -13,6 +13,24 @@ class LoginPageTest(TestCase):
         self.client = Client()
         self.student = Student.objects.get(user__username = 'student')
 
+        self.home_url = reverse('home')
+        self.student_list_url = reverse('students:student_list')
+        self.about_url = reverse('about')
+
+        self.tabs = f'''
+        <ul class="nav nav-tabs mb-3">          
+            <li class="nav-item"><a class="nav-link active" href="{self.home_url}">Quizzes</a></li>
+            <li class="nav-item"><a class="nav-link" href="{self.student_list_url}">Students</a></li>
+            <li class="nav-item"><a class="nav-link" href="{self.about_url}">About</a></li>
+        </ul>'''
+
+        self.tabs = lambda active_tab='': f'''
+        <ul class="nav nav-tabs mb-3">          
+            <li class="nav-item"><a class="nav-link{' active' if active_tab=='home' else ''}" href="{self.home_url}">Quizzes</a></li>
+            <li class="nav-item"><a class="nav-link{' active' if active_tab=='students' else ''}" href="{self.student_list_url}">Students</a></li>
+            <li class="nav-item"><a class="nav-link{' active' if active_tab=='about' else ''}" href="{self.about_url}">About</a></li>
+        </ul>'''
+
     def test_login_page_returns_correct_html(self):
         loginurl = reverse('login')
         response = self.client.get(loginurl)
@@ -38,21 +56,10 @@ class LoginPageTest(TestCase):
         # self.assertIn(b'My Quizzes', response.content)
 
     def test_guest_user_can_access_quiz_list(self):
-        home_url = reverse('home')
-        response = self.client.get(home_url)
-        student_list_url = reverse('students:student_list')
-        about_url = reverse('about')
+        response = self.client.get(self.home_url)
         
-        # there is tab view in homepage and check there is quiz list url in home page
-
-        tabs = f'''
-        <ul class="nav nav-tabs mb-3">          
-            <li class="nav-item"><a class="nav-link active" href="{home_url}">Quizzes</a></li>
-            <li class="nav-item"><a class="nav-link" href="{student_list_url}">Students</a></li>
-            <li class="nav-item"><a class="nav-link" href="{about_url}">About</a></li>
-        </ul>'''
-        
-        self.assertInHTML(tabs, response.content.decode())
+        # there is tab view in homepage and check there is quiz list url in home page 
+        self.assertInHTML(self.tabs('home'), response.content.decode())
 
         quiz1 = '''<tr>
             <td class="align-middle">World War 1</td>
@@ -66,19 +73,10 @@ class LoginPageTest(TestCase):
         self.assertInHTML(quiz1, response.content.decode())
 
     def test_guest_user_can_access_student_list(self):
-        home_url = reverse('home')
-        student_list_url = reverse('students:student_list')
-        about_url = reverse('about')
         
         # there is tab view in homepage and check there is student list url in home page
-        response = self.client.get(student_list_url)
-        tabs = f'''
-        <ul class="nav nav-tabs mb-3">          
-            <li class="nav-item"><a class="nav-link" href="{home_url}">Quizzes</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{student_list_url}">Students</a></li>
-            <li class="nav-item"><a class="nav-link" href="{about_url}">About</a></li>
-        </ul>'''
-        self.assertInHTML(tabs, response.content.decode())
+        response = self.client.get(self.student_list_url)        
+        self.assertInHTML(self.tabs('students'), response.content.decode())
         
         # guest user can access student list
         student_search_form = '''
@@ -120,18 +118,40 @@ class LoginPageTest(TestCase):
         self.assertInHTML(student_info, response.content.decode())
 
     def test_guest_user_can_access_student_detail(self):
-        home_url = reverse('home')
-        student_list_url = reverse('students:student_list')
-        about_url = reverse('about')
 
         student_detail_url = reverse('students:student_detail', kwargs={'student':self.student.pk})
         response = self.client.get(student_detail_url)
 
-        tabs = f'''
-        <ul class="nav nav-tabs mb-3">          
-            <li class="nav-item"><a class="nav-link" href="{home_url}">Quizzes</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{student_list_url}">Students</a></li>
-            <li class="nav-item"><a class="nav-link" href="{about_url}">About</a></li>
-        </ul>'''
-        self.assertInHTML(tabs, response.content.decode())
-    
+        self.assertInHTML(self.tabs('students'), response.content.decode())
+
+        breadcrumb = f'''
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{self.student_list_url}">Students</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{self.student.user.username}</li>
+            </ol>
+        </nav>
+        '''
+        # breadcrumb in student details page
+        self.assertInHTML(breadcrumb, response.content.decode())
+
+
+    def test_login_and_signup_page_contains_navbar(self):
+        # check tabs in login page
+        response = self.client.get(reverse('login'))
+        self.assertInHTML(self.tabs(), response.content.decode())
+
+        # check tabs in signup page
+        response = self.client.get(reverse('signup'))
+        self.assertInHTML(self.tabs(), response.content.decode())
+
+        # check tabs in student_signup page
+        response = self.client.get(reverse('student_signup'))
+        self.assertInHTML(self.tabs(), response.content.decode())
+
+        # check tabs in teacher_signup page
+        response = self.client.get(reverse('teacher_signup'))
+        self.assertInHTML(self.tabs(), response.content.decode())
+
+        
+

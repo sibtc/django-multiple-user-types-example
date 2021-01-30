@@ -3,8 +3,13 @@
 
 {% block content %}
 {% include 'classroom/students/_header.html' with active='taken' %}
-
-<h2>{{quiz.name}}</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'students:taken_quiz_list' %}">Quizzes</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{quiz.name}}</li>
+    </ol>
+</nav>
+<!-- <h2>{{quiz.name}}</h2> -->
 {{ quiz.subject.get_html_badge }}
 
 <div class="progress">
