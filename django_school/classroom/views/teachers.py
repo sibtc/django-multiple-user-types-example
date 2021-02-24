@@ -13,6 +13,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from ..decorators import teacher_required
 from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
 from ..models import Answer, Question, Quiz, User
+from ..models  import Question
 
 
 class TeacherSignUpView(CreateView):
@@ -206,7 +207,8 @@ class QuestionDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Question.objects.filter(quiz__owner=self.request.user)
+        teacher=Question.objects.filter(quiz__owner=self.request.user)
+        return 
 
     def get_success_url(self):
         question = self.get_object()
