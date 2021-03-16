@@ -6,10 +6,18 @@
 {% include 'classroom/_guest_header.html' %}
 <ul class="nav nav-pills">
   <li class="nav-item">
-    <a class="nav-link{% if user_type == 'student' %} active {%else%}" href="{% url 'signup' %}{% endif %}">Student Signup</a>
+    {% if user_type == 'student' %}
+      <span class="nav-link active">Student Signup</span>
+    {%else%}
+      <a class="nav-link" href="{% url 'signup' %}">Student Signup</a>
+    {% endif %}
   </li>
   <li class="nav-item">
-    <a class="nav-link{% if user_type == 'teacher' %} active{%else%}" href="{% url 'teacher_signup' %}{% endif %}">Teacher Signup</a>
+    {% if user_type == 'teacher' %}
+      <span class="nav-link active">Teacher Signup</span>
+    {%else%}
+      <a class="nav-link" href="{% url 'teacher_signup' %}">Teacher Signup</a>
+    {% endif %}
   </li>
 </ul>
 
