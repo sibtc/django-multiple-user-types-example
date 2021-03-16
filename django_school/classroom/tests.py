@@ -146,8 +146,8 @@ class LoginPageTest(TestCase):
         self.assertInHTML(self.tabs(), response.content.decode())
 
         # check tabs in student_signup page
-        response = self.client.get(reverse('student_signup'))
-        self.assertInHTML(self.tabs(), response.content.decode())
+        # response = self.client.get(reverse('student_signup'))
+        # self.assertInHTML(self.tabs(), response.content.decode())
 
         # check tabs in teacher_signup page
         response = self.client.get(reverse('teacher_signup'))

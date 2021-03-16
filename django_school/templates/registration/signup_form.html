@@ -4,6 +4,15 @@
 
 {% block content %}
 {% include 'classroom/_guest_header.html' %}
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link{% if user_type == 'student' %} active {%else%}" href="{% url 'signup' %}{% endif %}">Student Signup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if user_type == 'teacher' %} active{%else%}" href="{% url 'teacher_signup' %}{% endif %}">Teacher Signup</a>
+  </li>
+</ul>
+
   <div class="row">
     <div class="col-md-8 col-sm-10 col-12">
       <h2>Sign up as a {{ user_type }}</h2>
