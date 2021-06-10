@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load quiz_extras %}
+
+{% block content %}
+  {% if request.user.is_authenticated %}
+	 {% include 'classroom/students/_header.html' with active='students' %}
+  {% else %}
+    {% include 'classroom/_guest_header.html' with active='students' %}
+  {% endif %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'students:student_list' %}">Students</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{student.user.username}}</li>
+    </ol>
+</nav>
+<div class="row">
+  <div class="col-md-4">
+      <img class="img-thumbnail" src="{{ student.user.email|gravatar_url:200 }}" width="200" height="200" alt="@{{ student.user.email}}">
+  </div>
+  <div class="col-md-8">
+  	<div class="card">
+    <table class="table mb-0">
+      
+      <tbody>
+      	<tr><td>Email</td><td>{{student.user.email}}</td></tr>
+      	<tr><td>Username</td><td>{{student.user.username}}</td></tr>
+      	<tr><td>Fullname</td><td>{{student.user.get_full_name}}</td></tr>
+      	<tr><td>POINTS</td><td>{{student.score}}</td></tr>
+      </tbody>
+    </table>
+	</div>
+  </div>
+</div><hr>
+<h3>Top Subjects</h3>
+{% for subject in subjects %}
+	<span class="badge badge-primary" style="background-color:{{subject.quiz__subject__color}}">
+		{{subject.quiz__subject__name}}
+	</span> x {{subject.score}}
+{% endfor %}
+{% endblock %}

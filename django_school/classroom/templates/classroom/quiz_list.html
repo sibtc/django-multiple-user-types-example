@@ -6,12 +6,8 @@
 {% endblock %}
 
 {% block content %}
-  {% include 'classroom/students/_header.html' with active='new' %}
-  <p class="text-muted">
-    Subjects:{% for subject in user.student.interests.all %} {{ subject.get_html_badge }}{% endfor %}
-    <a href="{% url 'students:student_interests' %}"><small>(update interests)</small></a>
-  </p>
-
+  {% include 'classroom/_guest_header.html' with active='quizzes' %}
+  
   <table class="table table-bordered mb-0" id="tb_quizlist" >
     <thead>
       <tr>

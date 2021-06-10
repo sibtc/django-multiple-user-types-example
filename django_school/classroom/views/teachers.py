@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
 from django.db import transaction
 from django.db.models import Avg, Count
 from django.forms import inlineformset_factory
@@ -12,8 +14,9 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 
 from ..decorators import teacher_required
 from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
-from ..models import Answer, Question, Quiz, User
+from ..models import Answer, Question, Quiz
 
+User = get_user_model()
 
 class TeacherSignUpView(CreateView):
     model = User
@@ -112,7 +115,8 @@ class QuizResultsView(DetailView):
         extra_context = {
             'taken_quizzes': taken_quizzes,
             'total_taken_quizzes': total_taken_quizzes,
-            'quiz_score': quiz_score
+            'quiz_score': quiz_score,
+            'total_questions':quiz.questions.count()
         }
         kwargs.update(extra_context)
         return super().get_context_data(**kwargs)
@@ -211,3 +215,17 @@ class QuestionDeleteView(DeleteView):
     def get_success_url(self):
         question = self.get_object()
         return reverse('teachers:quiz_change', kwargs={'pk': question.quiz_id})
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class QuestionPreviewView(DetailView):
+    model = Question 
+    template_name = 'classroom/teachers/question_preview.html'
+    pk_url_kwarg = 'question_pk'
+
+    def get_context_data(self, **kwargs):
+        question = self.get_object()
+        kwargs['quiz'] = question.quiz
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return Question.objects.filter(quiz__owner=self.request.user)

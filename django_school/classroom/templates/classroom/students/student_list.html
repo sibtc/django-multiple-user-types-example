@@ -1,0 +1,73 @@
+<!-- To show list of students -->
+{% extends 'base.html' %}
+{% load quiz_extras %}
+
+{% block css %}
+<style type="text/css">
+  .media {
+    margin-top: 10px
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if request.user.is_active %}
+  {% include 'classroom/students/_header.html' with active='students' %}
+{% else %}
+  {% include 'classroom/_guest_header.html' with active='students' %}
+{% endif %}
+<form method='GET'>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name='q' value='{{ request.GET.q }}' placeholder="Filter by username">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit">Search...</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<br>
+<div class="row">
+{% for student in students %}
+  <div class="col-sm-3">
+    <div class="media">
+      <a href="{% url 'students:student_detail' student=student.user.id %}">
+        <img class="mr-3" src="{{ student.user.username|gravatar_url:50 }}" alt="{{student.user.get_full_name}}">
+      </a>
+      <div class="media-body" style="font-size: 12px">
+        <!-- <a href="#">{{user.get_full_name}}</a><br> -->
+        <a href="{% url 'students:student_detail' student=student.user.id %}">{{student.user.username}}</a><br>
+        <strong>{{student.score}}</strong><br>
+        {{student.taken_quizzes.all|top_subject}}
+      </div>
+    </div>
+  </div>
+{% empty %}
+  <div class="col-sm-6"><p class="text-warning">No student matched your search.</p></div>
+{% endfor %}
+</div>
+
+{% if is_paginated %}
+  <ul class="pagination float-right">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link" >{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}

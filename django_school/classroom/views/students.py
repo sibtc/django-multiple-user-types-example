@@ -1,17 +1,22 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Sum
+from django.db.models.functions import Concat
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
+from django.views import View
 
 from ..decorators import student_required
 from ..forms import StudentInterestsForm, StudentSignUpForm, TakeQuizForm
-from ..models import Quiz, Student, TakenQuiz, User
+from ..models import Quiz, Student, TakenQuiz, Question
 
+User = get_user_model()
 
 class StudentSignUpView(CreateView):
     model = User
@@ -24,7 +29,7 @@ class StudentSignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('students:quiz_list')
 
 
@@ -52,13 +57,35 @@ class QuizListView(ListView):
 
     def get_queryset(self):
         student = self.request.user.student
-        student_interests = student.interests.values_list('pk', flat=True)
+        # student_interests = student.interests.values_list('pk', flat=True)
         taken_quizzes = student.quizzes.values_list('pk', flat=True)
-        queryset = Quiz.objects.filter(subject__in=student_interests) \
-            .exclude(pk__in=taken_quizzes) \
+        queryset = Quiz.objects.exclude(pk__in=taken_quizzes) \
             .annotate(questions_count=Count('questions')) \
             .filter(questions_count__gt=0)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student_subjects'] = self.request.user.student.interests.values_list('pk', flat=True)
+        return context
+
+@method_decorator([login_required, student_required], name='dispatch')
+class QuizResultsView(View):
+    template_name = 'classroom/students/quiz_result.html'
+
+    def get(self, request, *args, **kwargs):        
+        quiz = Quiz.objects.get(id = kwargs['pk'])
+        taken_quiz = TakenQuiz.objects.filter(student = request.user.student, quiz = quiz)
+        if not taken_quiz:
+            """
+            Don't show the result if the user didn't attempted the quiz
+            """
+            return render(request, '404.html')
+        questions = Question.objects.filter(quiz =quiz)
+        
+        # questions = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'questions':questions, 
+            'quiz':quiz, 'percentage': taken_quiz[0].percentage})
 
 
 @method_decorator([login_required, student_required], name='dispatch')
@@ -100,13 +127,16 @@ def take_quiz(request, pk):
                     return redirect('students:take_quiz', pk)
                 else:
                     correct_answers = student.quiz_answers.filter(answer__question__quiz=quiz, answer__is_correct=True).count()
-                    score = round((correct_answers / total_questions) * 100.0, 2)
-                    TakenQuiz.objects.create(student=student, quiz=quiz, score=score)
-                    if score < 50.0:
-                        messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, score))
+                    percentage = round((correct_answers / total_questions) * 100.0, 2)
+                    TakenQuiz.objects.create(student=student, quiz=quiz, score=correct_answers, percentage= percentage)
+                    student.score = TakenQuiz.objects.filter(student=student).aggregate(Sum('score'))['score__sum']
+                    student.save()
+                    if percentage < 50.0:
+                        messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, percentage))
                     else:
-                        messages.success(request, 'Congratulations! You completed the quiz %s with success! You scored %s points.' % (quiz.name, score))
-                    return redirect('students:quiz_list')
+                        messages.success(request, 'Congratulations! You completed the quiz %s with success! You scored %s points.' % (quiz.name, percentage))
+                    # return redirect('students:quiz_list')
+                    return redirect('students:student_quiz_results', pk)
     else:
         form = TakeQuizForm(question=question)
 
@@ -114,5 +144,40 @@ def take_quiz(request, pk):
         'quiz': quiz,
         'question': question,
         'form': form,
-        'progress': progress
+        'progress': progress,
+        'answered_questions': total_questions - total_unanswered_questions,
+        'total_questions': total_questions
     })
+
+
+# @method_decorator([login_required, student_required], name='dispatch')
+class StudentList(ListView):
+    # model = get_user_model()
+    paginate_by = 36
+    template_name = 'classroom/students/student_list.html'
+    context_object_name = 'students'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q','')
+        User = get_user_model()
+
+        queryset = Student.objects.order_by('-score')
+        if query:
+            # queryset = queryset.annotate(
+            #     full_name = Concat('first_name','last_name')
+            # ).filter(full_name__icontains = query)
+            queryset = queryset.filter(user__username__icontains = query)
+        return queryset
+
+# @method_decorator([login_required, student_required], name='dispatch')
+class StudentDetail(View):
+    """Show Details of a Student"""
+    def get(self, request, **kwargs):
+        student = Student.objects.get(user_id = kwargs['student'])
+        subjects = student.taken_quizzes.all() \
+            .values('quiz__subject__name','quiz__subject__color') \
+            .annotate(score = Sum('score')) \
+            .order_by('-score')
+        
+        return render(request,'classroom/students/student_detail.html', 
+            {'student': student, 'subjects':subjects})

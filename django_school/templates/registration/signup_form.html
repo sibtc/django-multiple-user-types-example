@@ -3,6 +3,24 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+{% include 'classroom/_guest_header.html' %}
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    {% if user_type == 'student' %}
+      <span class="nav-link active">Student Signup</span>
+    {%else%}
+      <a class="nav-link" href="{% url 'signup' %}">Student Signup</a>
+    {% endif %}
+  </li>
+  <li class="nav-item">
+    {% if user_type == 'teacher' %}
+      <span class="nav-link active">Teacher Signup</span>
+    {%else%}
+      <a class="nav-link" href="{% url 'teacher_signup' %}">Teacher Signup</a>
+    {% endif %}
+  </li>
+</ul>
+
   <div class="row">
     <div class="col-md-8 col-sm-10 col-12">
       <h2>Sign up as a {{ user_type }}</h2>

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	{% include 'classroom/_guest_header.html' %}
   <h2>Sign up for a free account</h2>
   <p class="lead">Select below the type of account you want to create</p>
   <a href="{% url 'student_signup' %}" class="btn btn-student btn-lg" role="button">I'm a student</a>

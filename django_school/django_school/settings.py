@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -86,6 +87,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # Heroku Database
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'd5hknnaihi88bf',
+    #     'USER': 'vpidynpvpkjahr',
+    #     'PASSWORD': '3005007b069891de106545657b9cb998dcb3bcf974d2d4f1c57d6f2746c692af',
+    #     'HOST': 'ec2-18-210-51-239.compute-1.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 }
 
 
