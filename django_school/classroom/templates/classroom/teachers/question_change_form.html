@@ -14,7 +14,7 @@
   <form method="post" novalidate>
     {% csrf_token %}
     {{ formset.management_form }}
-    {{ form|crispy }}
+    {{ form }}
     <div class="card mb-3{% if formset.errors %} border-danger{% endif %}">
       <div class="card-header">
         <div class="row">
@@ -38,7 +38,7 @@
             <div class="row">
               <div class="col-8">
                 {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
-                {{ form.text|as_crispy_field }}
+                {{ form.text }}
                 {% if form.instance.pk and form.text.value != form.instance.text %}<p class="mb-0 mt-1"><small class="text-muted font-italic"><strong>Old answer:</strong> {{ form.instance.text }}</small></p>{% endif %}
               </div>
               <div class="col-2">

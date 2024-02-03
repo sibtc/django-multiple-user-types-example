@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['my-best-wiki.azurewebsites.net','127.0.0.1','django-quiz-app.azurewebsites.net']
 
 
 # Application definition
@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
     'crispy_forms',
-
     'classroom',
 ]
 
@@ -53,9 +51,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://my-best-wiki.azurewebsites.net",
+    "https://django-quiz-app.azurewebsites.net",
 ]
 
 ROOT_URLCONF = 'django_school.urls'
+
+CSRF_TRUSTED_ORIGINS = ['https://django-quiz-app.azurewebsites.net']
 
 TEMPLATES = [
     {
@@ -112,6 +118,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+# CHAGE MADE ACCORDING TO CHATPGT
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'collected_static')
 
 # Custom Django auth settings
 

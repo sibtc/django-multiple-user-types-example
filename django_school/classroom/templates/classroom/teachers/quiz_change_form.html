@@ -17,7 +17,7 @@
     <div class="col-md-6 col-sm-8 col-12">
       <form method="post" novalidate>
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ form }}
         <button type="submit" class="btn btn-success">Save changes</button>
         <a href="{% url 'teachers:quiz_change_list' %}" class="btn btn-outline-secondary" role="button">Nevermind</a>
         <a href="{% url 'teachers:quiz_delete' quiz.pk %}" class="btn btn-danger float-right">Delete</a>
