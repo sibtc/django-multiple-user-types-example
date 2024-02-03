@@ -1,3 +1,4 @@
-Django==2.0.1
-django-crispy-forms==1.7.0
-pytz==2017.3
+Django==5.0.1
+django-crispy-forms==2.1
+pytz==2023.3.post1
+django-cors-headers==4.3.1
